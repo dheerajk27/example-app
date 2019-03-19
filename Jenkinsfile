@@ -1,6 +1,6 @@
 node {
 	def app
-
+	properties([disableConcurrentBuilds()])
 	stage('Clone repository') {
 		checkout scm
 	}
