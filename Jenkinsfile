@@ -1,6 +1,6 @@
 node {
 	def app
-
+	properties([disableConcurrentBuilds()])
 	stage('Clone repository') {
 		checkout scm
 	}
@@ -9,7 +9,7 @@ node {
 		app = docker.build('dheerajk27/example-app')
 	}
 
-	stage('Test'){
+	stage('Test build'){
 		app.inside{
 			sh 'npm test'
 		}
@@ -17,7 +17,8 @@ node {
 
 	stage('Push image') {
 		docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-			app.push('latest')
+			app.push("${env.BRANCH_NAME}-latest")
+			app.push("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
 		}
 	}
 }
