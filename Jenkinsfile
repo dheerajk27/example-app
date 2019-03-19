@@ -9,7 +9,7 @@ node {
 		app = docker.build('dheerajk27/example-app')
 	}
 
-	stage('Test'){
+	stage('Test build'){
 		app.inside{
 			sh 'npm test'
 		}
